@@ -22,6 +22,10 @@ export default class App extends Component {
   }
 
   render() {
+    let source=require('./tpl.html')
+    if (!__DEV__) {
+        source = Platform.OS === 'ios' ? require('./tpl.html') : { uri: 'file:///android_asset/tpl.html' }
+    }
     return (
       <View style={{flex: 1, height: this.props.height || 400,}}>
         <WebView
@@ -34,7 +38,7 @@ export default class App extends Component {
             backgroundColor: this.props.backgroundColor || 'transparent'
           }}
           scalesPageToFit={Platform.OS !== 'ios'}
-          source={require('./tpl.html')}
+          source={source}
           onMessage={event => this.props.onPress ? this.props.onPress(JSON.parse(event.nativeEvent.data)) : null}
         />
       </View>
